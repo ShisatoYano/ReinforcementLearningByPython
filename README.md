@@ -13,6 +13,8 @@ Reading Log of a book, "Reinforcement Learning by Python".
     - [Day 1: How does Reinforcement Learning work in Machine Learning?](#day-1-how-does-reinforcement-learning-work-in-machine-learning)
         - [Marcov Decision Process](#marcov-decision-process)
         - [Sum of Rewards](#sum-of-rewards)
+    - [Day 2: Programming based on Environment](#day-2-programming-based-on-environment)
+        - [Definition and calculation of Value: Bellman Equation](#definition-and-calculation-of-value-bellman-equation)
 
 <!-- /TOC -->
 
@@ -76,3 +78,31 @@ $$
 * Estimated $G_t$ is called "Expected Rewards" or "Value"  
 * Calculation of Value is called "Value Approximation"  
 * Setting of default Reward affects Action of Agent. If it is set as negative value, it encourages Agent to reach Goal early.  
+
+## Day 2: Programming based on Environment
+---
+* Method to learn based on Transition function and Reward function is called "Model based Learning".  
+
+### Definition and calculation of Value: Bellman Equation
+
+* Value $G_t$ has the following 2 problems:  
+    1. The value of $R$(Immediate Reward) need to be found.  
+    2. The Agent can absolutely get the Reward.  
+
+* How to solve the 1st problem:  
+    * Recursive definition of Value $G_t$:  
+    $$
+        G_t = r_{t+1} + \gamma G_{t+1}
+    $$  
+    * Only the latest Immediate Reward $r_{t+1}$ need to be found. The calculation of future $G_{t+1}$ can be left out.(assigned temporal appropriate value)  
+
+* How to solve the 2nd problem:  
+    * Action probability times Immediate Reward.  
+    * Definition of Action (1): Agent actions based on Policy $\pi$  
+    * Definition of Action (2): Agent always selects Action which maximize "Value".  
+    * Action probability based on Policy: $\pi(a|s)$  
+    * Transition probability: $T(s'|s,a)$  
+    * Value by Action based on Policy: $V_\pi (s)$  
+    $$
+        V_\pi (s_t) = E_\pi [r_{t+1}+\gamma V_\pi (s_{t+1})]
+    $$  
