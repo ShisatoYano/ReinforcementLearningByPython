@@ -15,6 +15,9 @@ Reading Log of a book, "Reinforcement Learning by Python".
         - [Sum of Rewards](#sum-of-rewards)
     - [Day 2: Programming based on Environment](#day-2-programming-based-on-environment)
         - [Definition and calculation of Value: Bellman Equation](#definition-and-calculation-of-value-bellman-equation)
+        - [Learning Value evaluation by Dynamic Programming: Value Iteration](#learning-value-evaluation-by-dynamic-programming-value-iteration)
+        - [Learning Policy by Dynamic Programming: Policy Iteration](#learning-policy-by-dynamic-programming-policy-iteration)
+        - [Difference between "Model based" and "Model free"](#difference-between-model-based-and-model-free)
 
 <!-- /TOC -->
 
@@ -106,3 +109,53 @@ $$
     $$
         V_\pi (s_t) = E_\pi [r_{t+1}+\gamma V_\pi (s_{t+1})]
     $$  
+    $$
+        V_\pi (s) = \sum_{a}\pi(a|s) \sum_{s'}T(s'|s,a)(R(s,s')+\gamma V_\pi(s'))
+    $$  
+    * Case of selecting Action which maximizes "Value":  
+    $$
+        V(s) = max \sum_{s'} T(s'|s,a)(R(s,s')+\gamma V(s'))
+    $$  
+    * Case of what Reward is decided depending on only State:  
+    $$
+        V(s) = R(s) + \gamma max \sum_{s'} T(s'|s,a)V(s')
+    $$  
+
+* Reinforcement Learning had 2 patterns of direction as follow:  
+    1. Selecting Action based on Policy  
+    2. Selecting Action which maximizes "Value"  
+
+### Learning Value evaluation by Dynamic Programming: Value Iteration
+
+* Basic thinking  
+Agent calculates Value at each State and get Action to transit the highest value state.  
+
+* Value Iteration  
+Method to calculate Value at each State by Dynamic Programming.  
+$$
+    V_{i+1}(s) = max\{ \sum_{s'}T(s'|s,a)(R(s)+\gamma V_i(s')) \}
+$$  
+
+* How to judge  
+"Get close to accurate value" is judged by checking the difference $|V_{i+1}(s)-V_i(s)|$ is getting lower than threshold.  
+
+### Learning Policy by Dynamic Programming: Policy Iteration
+
+* Basic thinking  
+Agent acts depending on Policy. Policy outputs Action probability and can calculate Value(Expected value) based on Action probability.  
+
+* Policy iteration process  
+    1. Calculating Value based on Policy  
+    2. Updating Policy in maximizing Value  
+    3. Improving accuracy of both Value evaluation and Policy  
+
+* Calculation performance  
+Policy iteration is faster than Value iteration because Policy iteration doesn't need to calculate Value at all of States. Policy iteration needs to calculate Value every time Policy is updated.  
+
+### Difference between "Model based" and "Model free"
+
+* Model based method can get the optimal policy based on only Environment without Agent's movement because Transition function and Reward function are obvious. This method is effective when moving Agent is costly or Environment has a lot of noise.  
+
+* Model free method can plan by moving Agent in fact. In this case, Transition function and Reward function doesn't need to be obvious.  
+
+* Typically, Model free method is more popular than Model based method because there is few case which Transition function and Reward function are obvious or they can be modeled well.  
