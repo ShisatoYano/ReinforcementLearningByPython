@@ -29,6 +29,7 @@ Reading Log of a book, "Reinforcement Learning by Python".
         - [Multi-step Learning](#multi-step-learning)
         - [TD($\lambda$) method](#td\lambda-method)
         - [Value based vs Policy based](#value-based-vs-policy-based)
+    - [Day4: Applying Neural Network to Reinforcement learning](#day4-applying-neural-network-to-reinforcement-learning)
 
 <!-- /TOC -->
 
@@ -247,3 +248,6 @@ Setting the origin of calculating a discounted current value $G$ to the time whe
 * Policy based method: SARSA(State-Action-Reward-State-Action)  
 * Actor-Critic method  
 Method to combine "Value based" with "Policy based". Actor is in charge of Policy ans Critic is in charge of Value evaluation. 
+
+## Day4: Applying Neural Network to Reinforcement learning
+---
