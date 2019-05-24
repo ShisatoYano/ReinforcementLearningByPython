@@ -251,3 +251,4 @@ Method to combine "Value based" with "Policy based". Actor is in charge of Polic
 
 ## Day4: Applying Neural Network to Reinforcement learning
 ---
+Method to implement an value evaluation and a policy as a function with a parameter.  
