@@ -30,6 +30,15 @@ Reading Log of a book, "Reinforcement Learning by Python".
         - [TD($\lambda$) method](#td\lambda-method)
         - [Value based vs Policy based](#value-based-vs-policy-based)
     - [Day4: Applying Neural Network to Reinforcement learning](#day4-applying-neural-network-to-reinforcement-learning)
+        - [1 layer Neural Network](#1-layer-neural-network)
+        - [Activation function](#activation-function)
+        - [Propagation](#propagation)
+        - [Backpropagation](#backpropagation)
+        - [Regularization](#regularization)
+        - [Advantage of applying Neural Network](#advantage-of-applying-neural-network)
+        - [Experience Reply](#experience-reply)
+        - [Value Function Approximation](#value-function-approximation)
+        - [Deep Q-Network](#deep-q-network)
 
 <!-- /TOC -->
 
@@ -252,3 +261,68 @@ Method to combine "Value based" with "Policy based". Actor is in charge of Polic
 ## Day4: Applying Neural Network to Reinforcement learning
 ---
 Method to implement an value evaluation and a policy as a function with a parameter.  
+
+### 1 layer Neural Network
+
+\[
+    \left[
+        \begin{array}{c}
+            y_1 \\
+            y_2 \\
+            y_3 \\
+            y_4 \\
+        \end{array}
+    \right] = \left[
+        \begin{array}{cc}
+            a_{11} & a_{12} \\
+            a_{21} & a_{22} \\
+            a_{31} & a_{32} \\
+            a_{41} & a_{42} \\
+        \end{array}
+    \right] \left[
+        \begin{array}{c}
+            x_1 \\
+            x_2 \\
+        \end{array}
+    \right] + \left[
+        \begin{array}{c}
+            b_1 \\
+            b_2 \\
+            b_3 \\
+            b_4 \\
+        \end{array}
+    \right]
+\]  
+
+This is a simple 1 layer Neural Network example. Neural Netwark is what an input valuable times a weight plus a bias sequentially. An output at an layer will be an input at the next layer. When there is a lot of layers, this is called Deep Neural Network.  
+
+### Activation function
+
+A function is inserted between an input and an output. The function is called "Activation function".  
+
+### Propagation
+
+A passing process like output, activation function, input to next layer is called "Propagation". When the propagation process is executed, multiple data is processed all together. This unit is called "Batch".  
+
+### Backpropagation
+
+Neural Network is learned by adjusting a weight and a bias at each layer. "How is the output wrong?" is passed from the output side.  
+
+### Regularization
+
+This is a method to limit a weight used at each layer. If it was not limited, a prediction result which is accurate for only training data.  
+
+### Advantage of applying Neural Network
+
+Data which is similar with "State" a human observe in fact can be used for training of Agent.  
+This method has a disadvantage that it takes long time to train too. For applying Neural Network to Reinforcement learning, a design to overcome the disadvantage should be executed.  
+
+### Experience Reply
+
+A history of action is stored temporarily and training data is sampled from them. This purpose is to stabilize the training. Data which has different time step at different episode can be used.  
+
+### Value Function Approximation
+
+A function to evaluate value is called Value function. Training(estimating) the value function is called Value Function Approximation. Selecting action is executed based on an output from value function (value based method).  
+
+### Deep Q-Network
