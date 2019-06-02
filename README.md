@@ -38,7 +38,22 @@ Reading Log of a book, "Reinforcement Learning by Python".
         - [Advantage of applying Neural Network](#advantage-of-applying-neural-network)
         - [Experience Reply](#experience-reply)
         - [Value Function Approximation](#value-function-approximation)
+        - [Fixed Target Q-Network](#fixed-target-q-network)
+        - [Reward Clipping](#reward-clipping)
         - [Deep Q-Network](#deep-q-network)
+        - [Rainbow](#rainbow)
+            - [1. Double DQN](#1-double-dqn)
+            - [2. Prioritized Reply](#2-prioritized-reply)
+            - [3. Dueling Network](#3-dueling-network)
+            - [4. Multi-step Learning](#4-multi-step-learning)
+            - [5. Distributional RL](#5-distributional-rl)
+            - [6. Noisy Nets](#6-noisy-nets)
+        - [Policy Gradient](#policy-gradient)
+            - [Expectation of policy value](#expectation-of-policy-value)
+            - [Maximizing expectation](#maximizing-expectation)
+            - [Evaluating action value](#evaluating-action-value)
+        - [Advantage Actor Critic(A2C)](#advantage-actor-critica2c)
+            - [Deep Deterministic Policy Gradient(DDPG)](#deep-deterministic-policy-gradientddpg)
 
 <!-- /TOC -->
 
@@ -325,4 +340,106 @@ A history of action is stored temporarily and training data is sampled from them
 
 A function to evaluate value is called Value function. Training(estimating) the value function is called Value Function Approximation. Selecting action is executed based on an output from value function (value based method).  
 
+### Fixed Target Q-Network
+
+This is a method to calculate a value at a transition state by a network with a fixed parameter during fixed interval.  
+
+### Reward Clipping
+
+This is to integrate rewards during all of games. For example, success reward is 1 and failure reward is -1.  
+
 ### Deep Q-Network
+
+This is a method to use CNN(Convolutional Neural Netwark) and to stabilize training by Experience Reply, Fixed Target Q-Netwark and Reward Clipping.  
+
+### Rainbow
+[Rainbow: Combining Improvements in Deep Reinforcement Learning](https://arxiv.org/abs/1710.02298)  
+
+This method has the following 6 techniques.  
+
+#### 1. Double DQN  
+
+This is used for improving an estimation accuracy of a value. This method suggests that a network of action value and the other one of action choice are devided.  
+
+#### 2. Prioritized Reply  
+
+This is used for improving a training efficiency. A rate of random sampling and the other one of sampling based on TD error are adjusted with a parameter.  
+
+#### 3. Dueling Network
+
+This is used for improving an estimation accuracy of a value. This method is to calculate a value of state and the other one of action separately.  
+
+#### 4. Multi-step Learning
+
+This is used for improving an estimation accuracy of a value. This method is to modify by rewards during n steps and values at a state in the future n steps.  
+
+For example, a formula which n=3 is as follow.  
+
+\[
+    \delta = r_{t+1} + \gamma r_{t+2} + \gamma^2 r_{t+3} + \gamma^3 max Q(s_{t+3}, a) - Q(s_t, a_t)
+\]  
+
+#### 5. Distributional RL
+
+This is used for improving an estimation accuracy of a value. Rewards is used as distribution. The average and the variance change depending on the state or action.  
+
+#### 6. Noisy Nets
+
+This is used for improving searching efficiency. It has the network learn how the agent acts randomly.  
+
+\[
+    y = (W + \sigma^w \odot \epsilon^w)x + (b + \sigma^b \odot \epsilon^b)
+\]  
+
+$\epsilon$: random noise  
+$\sigma$: quantity of random noise  
+
+### Policy Gradient
+
+Policy can be expressed as a function with a parameter.  
+Input: state  
+Output: action or action probability  
+
+#### Expectation of policy value
+
+This expectation is calculated with transition probability to a state following policy, action probability and action value.  
+
+\[
+    J(\theta) \propto \sum_{s\in S} d^{\pi_\theta} (s) \sum_{a \in A} \pi_\theta (a|s) Q^{\pi_\theta} (s,a)
+\]  
+
+$\pi_\theta$: function with parameter $\theta$ as Policy.  
+$d^{\pi_\theta} (s)$: transition probability to state $s$ following the policy  
+$\pi_\theta (a|s)$: action probability which takes action $a$ at the state $s$  
+$Q^{\pi_\theta} (s,a)$: action value  
+
+#### Maximizing expectation
+
+Expectation $J(\theta)$ is maximized by Gradient method. Normal Gradient method is for minimization, so it can be used as maximization by timing minus. Gradient of expectation $\nabla J(\theta)$ is expressed as follow.  
+
+\[
+    \nabla J(\theta) \propto \sum_{s\in S} d^{\pi_\theta} (s) \sum_{a \in A} \nabla \pi_\theta (a|s) Q^{\pi_\theta} (s,a)
+\]  
+
+\[
+    \nabla \pi_\theta (a|s) = \pi_\theta (a|s) \frac{\nabla \pi_\theta (a|s)}{\pi_\theta (a|s)} = \pi_\theta (a|s) \nabla log \pi_\theta (a|s)
+\]  
+
+#### Evaluating action value
+
+Action value at a state $Q(s, a)$ depends on a difference of the state rather than a difference of the action. So, the action value should be evaluated by subtracting the state value as follow.  
+
+\[
+    A(s, a) = Q_w (s, a) - V_v (s)
+\]  
+
+This pure action value $A(s, a)$ is called "Advantage".  
+
+### Advantage Actor Critic(A2C)
+
+Deep Neural Network(DNN) can be applied to a policy function. 
+
+#### Deep Deterministic Policy Gradient(DDPG)
+
+An action is not sampled from a distribution of action probability but output directly. This method uses not Advantage but TD error and uses Fixed Target Q-Network for learning.  
+
