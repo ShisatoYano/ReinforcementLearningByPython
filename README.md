@@ -54,6 +54,8 @@ Reading Log of a book, "Reinforcement Learning by Python".
             - [Evaluating action value](#evaluating-action-value)
         - [Advantage Actor Critic(A2C)](#advantage-actor-critica2c)
             - [Deep Deterministic Policy Gradient(DDPG)](#deep-deterministic-policy-gradientddpg)
+            - [Technique to stabilize execution result](#technique-to-stabilize-execution-result)
+        - [Value evaluation or Policy?](#value-evaluation-or-policy)
 
 <!-- /TOC -->
 
@@ -437,9 +439,30 @@ This pure action value $A(s, a)$ is called "Advantage".
 
 ### Advantage Actor Critic(A2C)
 
-Deep Neural Network(DNN) can be applied to a policy function. 
+Deep Neural Network(DNN) can be applied to a policy function.  
 
 #### Deep Deterministic Policy Gradient(DDPG)
 
 An action is not sampled from a distribution of action probability but output directly. This method uses not Advantage but TD error and uses Fixed Target Q-Network for learning.  
 
+#### Technique to stabilize execution result
+
+This method is to impose a constraint which an action distribution changes from the previous one gradually.  
+
+\[
+    E_t [KL[\pi_{\theta_{old}}(\cdot|s_t), \pi_{\theta}(\cdot|s_t)]] \le \delta
+\]  
+
+$\pi_{\theta_{old}}(\cdot|s_t)$: action distribution before update  
+$\pi_{\theta}(\cdot|s_t)$: action distribution after update  
+$KL$: Kullback-Leibler Distance, an index to measure between distributions  
+
+\[
+    maximize E_t [\frac{\pi_{\theta}(a_t|s_t)}{\pi_{\theta_{old}}(a_t|s_t)}A_t]
+\]  
+
+$E_t$ is update by maximizing Advantage depending on a weight $\frac{\pi_{\theta}(a_t|s_t)}{\pi_{\theta_{old}}(a_t|s_t)}$. This method is "Trust Region Policy Optimization(TRPO)".  
+
+### Value evaluation or Policy?
+
+Policy based method can choose an action probabilistically and overcome an disadvantage of Value based method. The disadvantage is to choose an biased action if it has some same value actions. 
